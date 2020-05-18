@@ -3,4 +3,4 @@ project(Lab6)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Lab6 APP.cpp Administrator.cpp Administrator.h Benutzer.cpp Benutzer.h Film.h Repository.h UserInterface.cpp UserInterface.h Tests.cpp Tests.h)
+add_executable(Lab6 APP.cpp AdministratorController.cpp AdministratorController.h BenutzerController.cpp BenutzerController.h Film.h Repository.h UserInterface.cpp UserInterface.h Tests.cpp Tests.h Repository.cpp)
