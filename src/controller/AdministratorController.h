@@ -2,16 +2,17 @@
 // Created by holom on 10.04.2020.
 //
 #pragma once
-#ifndef LAB5_ADMINISTRATOR_H
-#define LAB5_ADMINISTRATOR_H
 
-#include "Repository.h"
-
+#include "../repository/FilmRepository.h"
+#include "../domain/Film.h"
+#include "../repository/RepositoryInMemory.cpp"
+#include "../repository/FilmFileRepository.cpp"
 class AdministratorController {
 private:
-    Repository repo;
+    FilmRepository* repo;
 public:
-    int size() { return repo.size(); };
+    AdministratorController();
+    int size() { return repo->size(); };
     /**
      * RETURN THE FILM LIST
      */
@@ -24,4 +25,3 @@ public:
 };
 
 
-#endif //LAB5_ADMINISTRATOR_H

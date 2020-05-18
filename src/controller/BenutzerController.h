@@ -2,17 +2,17 @@
 // Created by holom on 10.04.2020.
 //
 #pragma once
-#ifndef LAB5_BENUTZER_H
-#define LAB5_BENUTZER_H
 
-#include "Film.h"
-#include <vector>
-#include "Repository.h"
+#include "../repository/FilmRepository.h"
+#include "../domain/Film.h"
+#include "../repository/RepositoryInMemory.cpp"
+#include "../repository/FilmFileRepository.cpp"
 
 class BenutzerController {
     vector<Film> watchlist;
-    Repository repo;
+    FilmRepository* repo;
 public:
+    BenutzerController();
     int size(){ return watchlist.size();};
 
     vector<Film> view_genre(const string &genre);
@@ -25,4 +25,4 @@ public:
 };
 
 
-#endif //LAB5_BENUTZER_H
+

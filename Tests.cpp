@@ -1,20 +1,20 @@
 //
 // Created by Bond on 4/11/2020.
 //
-#include "Repository.h"
-#include "BenutzerController.h"
-#include "AdministratorController.h"
+#include "src/repository/RepositoryInMemory.cpp"
+#include "src/controller/BenutzerController.h"
+#include "src/controller/AdministratorController.h"
 #include <assert.h>
 #include <iostream>
-
+/*
 void TestRepo() {
-    Repository fel;
+    RepositoryInMemory fel;
     assert(fel.size() == 10);
     auto vect = fel.get_all();
     assert(!vect.empty());
 
 }
-
+*/
 void TestBen() {
     BenutzerController ben;
     vector<Film> vect = ben.view_genre("sadic");
@@ -69,7 +69,7 @@ void Teste() {
 
     TestFilm();
     TestAdm();
-    TestRepo();
+    //TestRepo();
     TestBen();
 
     std::cout << "\nTest END\n\n";

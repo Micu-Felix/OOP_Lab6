@@ -7,7 +7,7 @@
 
 vector<Film> BenutzerController::view_genre(const string &genre) {
     vector<Film> aux = {};
-    for (auto &iter : repo.get_all()) {
+    for (auto &iter : repo->get_all()) {
         if (iter.getgenre() == genre) {
             aux.push_back(iter);
         }
@@ -25,5 +25,9 @@ bool BenutzerController::watch(const string &titel, int jahr) {
     } else {
         return false;
     }
+}
+
+BenutzerController::BenutzerController() {
+    this->repo=new FilmFileRepository{"filme.csv"};
 }
 
