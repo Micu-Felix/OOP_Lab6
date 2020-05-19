@@ -14,7 +14,9 @@
 class BenutzerController {
     vector<Film> watchlist;
     FilmRepository* repo;
-    string format;
+    string format="resources/watchlist";
+    vector <Film> get_all_watch();
+    string ExePath();
 public:
     BenutzerController();
 
@@ -26,7 +28,7 @@ public:
 
     bool watch(const string &titel, int jahr);
 
-    void addToWatchlist(const Film& film){
-        watchlist.push_back(film);
-    }
-};
+    void addToWatchlist(const Film& film);
+
+    void view();
+    };

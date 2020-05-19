@@ -1,7 +1,3 @@
-//
-// Created by Bond on 4/10/2020.
-//
-
 /**
  * USER INTERFACE
  * @return
@@ -19,6 +15,7 @@ private:
     void AdministratorUI();
     void BenutzerUI();
     static std::string menu(int modus);
+    void addToWatchlist(const Film& film){ben->addToWatchlist(film);};
 public:
 
     FilmUI();

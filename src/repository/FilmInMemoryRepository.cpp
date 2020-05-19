@@ -1,16 +1,12 @@
-//
-// Created by Bond on 5/17/2020.
-//
 #include "FilmRepository.h"
 #include <algorithm>
-#include <iostream>
 #pragma once
 class RepositoryInMemory : public FilmRepository {
 private:
     vector<Film> repository;
 public:
     RepositoryInMemory() : FilmRepository() {
-        repository = {Film("T1", "sadic", 1970, 100, "https://ro.wikipedia.org/wiki/Raton"),
+        /*repository = {Film("T1", "sadic", 1970, 100, "https://ro.wikipedia.org/wiki/Raton"),
                       Film("T2", "action", 1970, 100,
                            "https://www.google.com/search?q=made_by_felix%26corina&oq=made_by_felix%26corina&aqs=chrome..69i57.13080j0j4&sourceid=chrome&ie=UTF-8"),
                       Film("T3", "comedy", 1970, 100,
@@ -28,8 +24,8 @@ public:
                       Film("T9", "action", 1970, 100,
                            "https://www.google.com/search?q=made_by_felix%26corina&oq=made_by_felix%26corina&aqs=chrome..69i57.13080j0j4&sourceid=chrome&ie=UTF-8"),
                       Film("T10", "action", 1970, 100, "https://ro.wikipedia.org/wiki/Raton"),
-
-        };
+        };*/
+        repository={};
     };
 
     int size() override { return repository.size(); };
@@ -73,7 +69,6 @@ public:
     }
 
     vector<Film> get_all()override {
-        std::cout<<"Repo are sizeul: "<<repository.size();
         return repository;
     }
 };

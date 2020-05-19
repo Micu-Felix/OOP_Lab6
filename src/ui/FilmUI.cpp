@@ -129,26 +129,29 @@ void FilmUI::AdministratorUI() {
 }
 
 void FilmUI::BenutzerUI() {
-    show_menu(2);
+
     vector<Film> filme;
     int option;
     std::string titel, genre, trailer;
+
     int jahr,format;
     std::string new_link;
     std::cout
-            << "0 fur CSV und 1 fur HTML\n\n";
+            << "Wahlen Sie einen Format fur der Watchliste 0 fur CSV und 1 fur HTML !\n\n";
     std::cin >> format;
     switch (format) {
         case 0:
-            ben->formatsetter(".csv");
+            ben->formatsetter(ben->formatgetter()+".csv");
             break;
         case 1:
-            ben->formatsetter(".html");
+            ben->formatsetter(ben->formatgetter()+".html");
             break;
         default:
             cout<<"Es git diesen Modus nicht!!\n";
             break;
     }
+    cout<<"Formatul ben este: "<<ben->formatgetter()<<'\n';
+    show_menu(2);
     bool ok=true;
     while (ok) {
         std::cout << "Option:\n";
@@ -158,7 +161,7 @@ void FilmUI::BenutzerUI() {
                 ok=false;
                 break;
             case 1:
-                std::cout << "\nGeben Sie eine Genre ein: ";
+                std::cout << "\nGeben Sie ein Genre ein: ";
                 std::cin >> genre;
                 filme = ben->view_genre(genre);
                 if (filme.empty()) {
@@ -166,19 +169,19 @@ void FilmUI::BenutzerUI() {
                     for (auto &iter : adm->view_filme()) {
                         cout << iter.anschreiben();
                         ShellExecute(NULL, "open", iter.gettrailer().c_str(), NULL, NULL, SW_SHOWNORMAL);
-                        cout << "Hat es Ihnen den Trailer gefallen? 1 fur Ja, 0 fur nein";
+                        cout << "Hat es Ihnen den Trailer gefallen? 1 fur Ja, 0 fur nein\n";
                         int var;
                         cin >> var;
                         if (var == 1)
                             placut = true;
                         if (placut) {
                             bool adaug = false;
-                            cout << "Mochten Sie den Film zur Watchliste einfugen? 1 fur Ja, 0 fur nein";
+                            cout << "Mochten Sie den Film zur Watchliste einfugen? 1 fur Ja, 0 fur nein\n";
                             cin >> var;
                             if (var == 1)
                                 adaug = true;
                             if (adaug)
-                                ben->addToWatchlist(iter);
+                                addToWatchlist(iter);
                             break;
                         }
 
@@ -194,7 +197,6 @@ void FilmUI::BenutzerUI() {
                 std::cin >> titel;
                 std::cout << "\nGeben Sie das Erscheinungsjahr des Films ein, den Sie loschen mochten:  ";
                 std::cin >> jahr;
-                std::cout << "\nGeben Sie den neuen Link des Films ein:  ";
                 try {
                     Valid::checkFilmExists(adm->view_filme(),titel,jahr);
                 }catch (FilmNotFoundException &e){
@@ -222,7 +224,9 @@ void FilmUI::BenutzerUI() {
                     }
                 }
                 break;
-
+            case 3:
+                ben->view();
+                break;
             default:
                 break;
 
@@ -247,8 +251,10 @@ std::string FilmUI::menu(int modus) {
               "Wahlen Sie eine Option: \n"
               "1 - Genre suchen\n"
               "2 - Loschen(und sich einen Film anschauen)\n"
+              "3 - Anschauen der Watchliste\n"
               "0 - Exit\n"
               "\n";
 
     return aux;
 }
+
