@@ -7,10 +7,14 @@
 #include <iostream>
 #include "../exceptions/exceptions.cpp"
 
+/**
+ * works with the film file
+ */
 class FilmFileRepository : public FilmRepository {
 private:
     string fileName;
 
+    //splits each line of the file and return a movie
     static Film split(const string &line, char delimiter) {
         string buffer;
         string result[5];

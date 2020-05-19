@@ -6,6 +6,9 @@
 
 #include "../controller/AdministratorController.h"
 #include "../controller/BenutzerController.h"
+/**
+ * Creates the interface for the user
+ */
 class FilmUI {
 
 private:

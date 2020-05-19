@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <shellapi.h>
 #include "../validation/validation.h"
+
 using namespace std;
 
 
@@ -35,7 +36,7 @@ void FilmUI::startUI() {
             BenutzerUI();
             break;
         default:
-            cout<<"Es git diesen Modus nicht!!\n";
+            cout << "Es git diesen Modus nicht!!\n";
             break;
     }
 }
@@ -46,26 +47,32 @@ void FilmUI::AdministratorUI() {
     std::string titel, genre, trailer;
     int jahr, likes;
     std::string new_link;
-    bool ok=true;
+    bool ok = true;
     while (ok) {
         std::cout << "Option:\n";
         std::cin >> option;
         switch (option) {
             case 0:
-                ok=false;
+                ok = false;
                 break;
             case 1:
                 std::cout << "\nGeben Sie den Titel des Films ein: ";
                 std::cin >> titel;
-                std::cout << "\nGeben Sie das Erscheinungsjahr des Films ein: ";
-                std::cin >> jahr;
+                try {
+                    std::cout << "\nGeben Sie das Erscheinungsjahr des Films ein, den Sie einfugen mochten:  ";
+                    std::cin >> jahr;
+                    Valid::checkJahr(jahr);
+                }
+                catch (std::out_of_range &) {
+                    cout << "Invalides Jahr";
+                }
                 std::cout << "\nGeben Sie das Genre des Films ein: ";
                 std::cin >> genre;
                 try {
                     std::cout << "\nGeben Sie den Link des Trailes des Films ein: ";
                     std::cin >> trailer;
                     Valid::checkTrailer(trailer);
-                }catch (const char* str){
+                } catch (const char *str) {
                     std::cout << str << '\n';
                     break;
                 }
@@ -75,7 +82,7 @@ void FilmUI::AdministratorUI() {
                     std::cin.get();
                     Valid::checkFilmLikes(likes);
                 }
-                catch (std::out_of_range()){
+                catch (std::out_of_range &) {
                     std::cout << "Numar invalid\n";
                     break;
                 }
@@ -88,13 +95,19 @@ void FilmUI::AdministratorUI() {
             case 2:
                 std::cout << "\nGeben Sie den Titel des Films ein, den Sie bearbeiten mochten: ";
                 std::cin >> titel;
-                std::cout << "\nGeben Sie das Erscheinungsjahr des Films ein, den Sie bearbeiten mochten:  ";
-                std::cin >> jahr;
+                try {
+                    std::cout << "\nGeben Sie das Erscheinungsjahr des Films ein, den Sie bearbeiten mochten:  ";
+                    std::cin >> jahr;
+                    Valid::checkJahr(jahr);
+                }
+                catch (std::out_of_range &) {
+                    cout << "Invalides Jahr";
+                }
                 try {
                     std::cout << "\nGeben Sie den neuen Link des Films ein:  ";
                     std::cin >> new_link;
                     Valid::checkTrailer(new_link);
-                }catch (const char* str){
+                } catch (const char *str) {
                     std::cout << str << '\n';
                     break;
                 }
@@ -108,7 +121,13 @@ void FilmUI::AdministratorUI() {
                 std::cout << "\nGeben Sie den Titel des Films ein, den Sie loschen mochten: ";
                 std::cin >> titel;
                 std::cout << "\nGeben Sie das Erscheinungsjahr des Films ein, den Sie loschen mochten:  ";
-                std::cin >> jahr;
+                try {
+                    std::cin >> jahr;
+                    Valid::checkJahr(jahr);
+                }
+                catch (std::out_of_range &) {
+                    cout << "Invalides Jahr";
+                }
                 if (adm->delete_film(titel, jahr))
                     cout << "Film wurde erfolgreich geloscht !!\n";
                 else
@@ -134,31 +153,31 @@ void FilmUI::BenutzerUI() {
     int option;
     std::string titel, genre, trailer;
 
-    int jahr,format;
+    int jahr, format;
     std::string new_link;
     std::cout
             << "Wahlen Sie einen Format fur der Watchliste 0 fur CSV und 1 fur HTML !\n\n";
     std::cin >> format;
     switch (format) {
         case 0:
-            ben->formatsetter(ben->formatgetter()+".csv");
+            ben->formatsetter(ben->formatgetter() + ".csv");
             break;
         case 1:
-            ben->formatsetter(ben->formatgetter()+".html");
+            ben->formatsetter(ben->formatgetter() + ".html");
             break;
         default:
-            cout<<"Es git diesen Modus nicht!!\n";
+            cout << "Es git diesen Modus nicht!!\n";
             break;
     }
-    cout<<"Formatul ben este: "<<ben->formatgetter()<<'\n';
+    cout << "Formatul ben este: " << ben->formatgetter() << '\n';
     show_menu(2);
-    bool ok=true;
+    bool ok = true;
     while (ok) {
         std::cout << "Option:\n";
         std::cin >> option;
         switch (option) {
             case 0:
-                ok=false;
+                ok = false;
                 break;
             case 1:
                 std::cout << "\nGeben Sie ein Genre ein: ";
@@ -198,15 +217,15 @@ void FilmUI::BenutzerUI() {
                 std::cout << "\nGeben Sie das Erscheinungsjahr des Films ein, den Sie loschen mochten:  ";
                 std::cin >> jahr;
                 try {
-                    Valid::checkFilmExists(adm->view_filme(),titel,jahr);
-                }catch (FilmNotFoundException &e){
+                    Valid::checkFilmExists(adm->view_filme(), titel, jahr);
+                } catch (FilmNotFoundException &e) {
                     std::cout << "Film Not Found" << '\n';
                     break;
                 }
                 //if (!ben->watch(titel, jahr))
                 //    cout << "Sie haben keinen solchen Film in der Watchliste\n";
                 //else {
-                if(ben->watch(titel, jahr)){
+                if (ben->watch(titel, jahr)) {
                     cout << "Mochten Sie den Film bewerten? 1 fur Ja, 0 fur nein";
                     int var;
                     bool like = false;

@@ -1,8 +1,12 @@
-#import <exception>
-#import <string>
+#include <exception>
+#include <string>
+
 #pragma once
 using namespace std;
 
+/**
+ * checks for any exceptions that could appear along the program
+ */
 class FileNotFoundException : exception {
 private:
     string fileName;

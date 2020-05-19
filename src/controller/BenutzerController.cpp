@@ -7,9 +7,7 @@
 #include <windows.h>
 #include <shellapi.h>
 #include <iostream>
-#include <windows.h>
 
-//namespace fs = std::filesystem;
 vector<Film> BenutzerController::view_genre(const string &genre) {
     vector<Film> aux = {};
     for (auto &iter : repo->get_all()) {
@@ -105,7 +103,7 @@ void BenutzerController::addToWatchlist(const Film &film) {
 }
 
 vector<Film> BenutzerController::get_all_watch() {
-    //if (format == "resources/watchlist.csv") {
+
 
     ifstream file("resources/watchlist.csv");
     vector<Film> filme = {};
@@ -115,22 +113,21 @@ vector<Film> BenutzerController::get_all_watch() {
     }
     while (getline(file, line)) {
         Film film = split(line, ',');
-        cout << film.gettitel() << '\n';
         filme.push_back(film);
     }
     file.close();
     return filme;
-    // }
+
 }
 
 void BenutzerController::view() {
     update_html();
-    std::cout << "Current path is " << ExePath() << '\n';
+    // std::cout << "Current path is " << ExePath() << '\n';
     string path = ExePath();
 
     if (format == "resources/watchlist.csv") {
         path += "\\resources\\watchlist.csv";
-        cout << "path este: " << path << '\n';
+        // cout << "path este: " << path << '\n';
         ShellExecute(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
     } else {
         path += "\\resources\\watchlist.html";
