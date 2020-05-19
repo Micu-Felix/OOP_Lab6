@@ -1,6 +1,3 @@
-// practic Domainu
-
-
 #pragma once
 #include <string>
 #include <utility>
@@ -47,13 +44,12 @@ public:
 
     [[nodiscard]] int getlikes() const { return likes; };
 
-     string anschreiben() const {
+    string anschreiben() const {
         return "Der Film mit dem Namen: " + gettitel() + " in dem Jahr " + to_string(getjahr()) + " " +
                " und hat folgendes Genre:" + getgenre() +
                " und hat so viele Likes: " + to_string(getlikes()) + "\n";
     };
 
 };
-
 
 

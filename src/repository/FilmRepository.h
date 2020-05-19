@@ -1,6 +1,3 @@
-//
-// Created by holom on 10.04.2020.
-//
 #pragma once
 
 #include "../domain/Film.h"

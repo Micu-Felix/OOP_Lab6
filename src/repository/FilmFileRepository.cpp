@@ -1,11 +1,10 @@
-//
-// Created by Bond on 5/18/2020.
-//
+
 #pragma once
 #include <fstream>
 #include "FilmRepository.h"
 #include <sstream>
-#include "../exception/FileNotFoundException.cpp"
+#include <iostream>
+#include "../exceptions/exceptions.cpp"
 
 class FilmFileRepository : public FilmRepository {
 private:
@@ -37,8 +36,6 @@ private:
 
 public:
     explicit FilmFileRepository(const string &fileName) : FilmRepository() {
-
-
         ifstream file(fileName);
         //fstream file(this->fileName);
         //file.open(fileName, ios::in);
@@ -58,8 +55,7 @@ public:
     }
 
     bool edit_film(const string &titel, int jahr, string new_link) override {
-        fstream file(this->fileName);
-        file.open(fileName, ios::in);
+        ifstream file(this->fileName);
         vector<Film> filme = {};
         string line;
         if (!file.is_open()) {
@@ -70,23 +66,23 @@ public:
             if (film.gettitel() == titel && film.getjahr() == jahr) {
                 film.settrailer(new_link);
             }
-            filme.emplace_back(film);
+            filme.push_back(film);
         }
         file.close();
-        file.open(fileName, ios::out);
-        file << "";
-        file.close();
-        file.open(fileName, ios::app);
-        for (auto &film:filme)
-            file << film.gettitel() << ',' << film.getgenre() << ',' << film.getjahr() << ',' << film.getlikes()
-                 << ',' << film.gettrailer() << '\n';
-        file.close();
+        auto film = filme.begin();
+        ofstream file2(fileName);
+        file2 << "";
+        file2.close();
+        ofstream file3(fileName,ios_base::app);
+        for (auto &film:filme){
+            file3 << film.gettitel() << ',' << film.getgenre() << ',' << film.getjahr() << ',' << film.getlikes()
+                 << ',' << film.gettrailer() << '\n';}
+        file3.close();
         return true;
     }
 
     bool delete_film(const string &titel, int jahr) override {
-        fstream file(this->fileName);
-        file.open(fileName, ios::in);
+        ifstream file(this->fileName);
         vector<Film> filme = {};
         string line;
         if (!file.is_open()) {
@@ -95,19 +91,19 @@ public:
         while (getline(file, line)) {
             Film film = split(line, ',');
             if (film.gettitel() != titel || film.getjahr() != jahr) {
-                filme.emplace_back(film);
+                filme.push_back(film);
             }
-
         }
         file.close();
-        file.open(fileName, ios::out);
-        file << "";
-        file.close();
-        file.open(fileName, ios::app);
-        for (auto &film:filme)
-            file << film.gettitel() << ',' << film.getgenre() << ',' << film.getjahr() << ',' << film.getlikes()
-                 << ',' << film.gettrailer() << '\n';
-        file.close();
+        auto film = filme.begin();
+        ofstream file2(fileName);
+        file2 << "";
+        file2.close();
+        ofstream file3(fileName,ios_base::app);
+        for (auto &film:filme){
+            file3 << film.gettitel() << ',' << film.getgenre() << ',' << film.getjahr() << ',' << film.getlikes()
+                  << ',' << film.gettrailer() << '\n';}
+        file3.close();
         return true;
     }
 

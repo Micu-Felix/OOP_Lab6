@@ -68,6 +68,7 @@ void FilmUI::AdministratorUI() {
             switch (option) {
                 case 0:
                     ok=false;
+                    break;
                 case 1:
                     std::cout << "\nGeben Sie den Titel des Films ein: ";
                     std::cin >> titel;
@@ -145,6 +146,7 @@ void FilmUI::BenutzerUI() {
             switch (option) {
                 case 0:
                    ok=false;
+                   break;
                 case 1:
                     std::cout << "\nGeben Sie eine Genre ein: ";
                     std::cin >> genre;

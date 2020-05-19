@@ -3,6 +3,7 @@
 //
 #include "FilmRepository.h"
 #include <algorithm>
+#include <iostream>
 #pragma once
 class RepositoryInMemory : public FilmRepository {
 private:
@@ -72,6 +73,7 @@ public:
     }
 
     vector<Film> get_all()override {
+        std::cout<<"Repo are sizeul: "<<repository.size();
         return repository;
     }
 };

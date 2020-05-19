@@ -1,11 +1,8 @@
-//
-// Created by holom on 10.04.2020.
-//
 #pragma once
 
 #include "../repository/FilmRepository.h"
 #include "../domain/Film.h"
-#include "../repository/RepositoryInMemory.cpp"
+#include "../repository/FilmInMemoryRepository.cpp"
 #include "../repository/FilmFileRepository.cpp"
 class AdministratorController {
 private:
@@ -23,5 +20,4 @@ public:
     bool edit_film(const string &titel, int jahr, string new_link);
 
 };
-
 

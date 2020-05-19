@@ -1,7 +1,3 @@
-//
-// Created by holom on 10.04.2020.
-//
-
 #include "AdministratorController.h"
 
 vector<Film> AdministratorController::view_filme() {
@@ -24,8 +20,6 @@ bool AdministratorController::edit_film(const string &titel, int jahr, string ne
 }
 
 AdministratorController::AdministratorController() {
-    this->repo=new FilmFileRepository{"filme.csv"};
+    this->repo=new FilmFileRepository{"resources/filme.csv"};
 
 }
-
-
