@@ -8,7 +8,8 @@
 #include <shellapi.h>
 #include <iostream>
 #include <windows.h>
- //namespace fs = std::filesystem;
+
+//namespace fs = std::filesystem;
 vector<Film> BenutzerController::view_genre(const string &genre) {
     vector<Film> aux = {};
     for (auto &iter : repo->get_all()) {
@@ -50,34 +51,34 @@ bool BenutzerController::watch(const string &titel, int jahr) {
     });
     if (it != watchlist.end()) {
         watchlist.erase(it);
-        if (format == "resources/watchlist.csv") {
-            string fileName = format;
-            ifstream file(fileName);
-            vector<Film> filme = {};
-            string line;
-            if (!file.is_open()) {
-                return false;
-            }
-            while (getline(file, line)) {
-                Film film = split(line, ',');
-                if (film.gettitel() != titel || film.getjahr() != jahr) {
-                    filme.push_back(film);
-                }
-            }
-            file.close();
-            //auto film = filme.begin();
-            ofstream file2(fileName);
-            file2 << "";
-            file2.close();
-            ofstream file3(fileName, ios_base::app);
-            for (auto &film:filme) {
-                file3 << film.gettitel() << ',' << film.getgenre() << ',' << film.getjahr() << ',' << film.getlikes()
-                      << ',' << film.gettrailer() << '\n';
-            }
-            file3.close();
-
-            return true;
+        //if (format == "resources/watchlist.csv") {
+        string fileName = "resources/watchlist.csv";
+        ifstream file(fileName);
+        vector<Film> filme = {};
+        string line;
+        if (!file.is_open()) {
+            return false;
         }
+        while (getline(file, line)) {
+            Film film = split(line, ',');
+            if (film.gettitel() != titel || film.getjahr() != jahr) {
+                filme.push_back(film);
+            }
+        }
+        file.close();
+        //auto film = filme.begin();
+        ofstream file2(fileName);
+        file2 << "";
+        file2.close();
+        ofstream file3(fileName, ios_base::app);
+        for (auto &film:filme) {
+            file3 << film.gettitel() << ',' << film.getgenre() << ',' << film.getjahr() << ',' << film.getlikes()
+                  << ',' << film.gettrailer() << '\n';
+        }
+        file3.close();
+        update_html();
+        return true;
+        // }
     } else {
         cout << "am intrat pe false\n";
         return false;
@@ -100,37 +101,39 @@ void BenutzerController::addToWatchlist(const Film &film) {
     file << film.gettitel() << ',' << film.getgenre() << ',' << film.getjahr() << ',' << film.getlikes()
          << ',' << film.gettrailer() << '\n';
     file.close();
+    update_html();
 }
 
 vector<Film> BenutzerController::get_all_watch() {
-    if (format == "resources/watchlist.csv") {
+    //if (format == "resources/watchlist.csv") {
 
-        ifstream file(format);
-        vector<Film> filme = {};
-        string line;
-        if (!file.is_open()) {
-            return filme;
-        }
-        while (getline(file, line)) {
-            Film film = split(line, ',');
-            cout << film.gettitel() << '\n';
-            filme.push_back(film);
-        }
-        file.close();
+    ifstream file("resources/watchlist.csv");
+    vector<Film> filme = {};
+    string line;
+    if (!file.is_open()) {
         return filme;
     }
+    while (getline(file, line)) {
+        Film film = split(line, ',');
+        cout << film.gettitel() << '\n';
+        filme.push_back(film);
+    }
+    file.close();
+    return filme;
+    // }
 }
-void BenutzerController::view() {
 
-    std::cout<< "Current path is " <<ExePath() << '\n';
-    string path=ExePath();
+void BenutzerController::view() {
+    update_html();
+    std::cout << "Current path is " << ExePath() << '\n';
+    string path = ExePath();
 
     if (format == "resources/watchlist.csv") {
-        path+="\\resources\\watchlist.csv";
-        cout<<"path este: "<<path<<'\n';
+        path += "\\resources\\watchlist.csv";
+        cout << "path este: " << path << '\n';
         ShellExecute(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
-    }else {
-        path+="\\resources\\watchlist.html";
+    } else {
+        path += "\\resources\\watchlist.html";
         ShellExecute(NULL, "open", R"(D:\Facultate\OOP\Git\OOP_Lab6\cmake-build-debug\resources\watchlist.html)", NULL,
                      NULL, SW_SHOWNORMAL);
     }
@@ -138,7 +141,31 @@ void BenutzerController::view() {
 
 string BenutzerController::ExePath() {
     char buffer[MAX_PATH];
-    GetModuleFileName( NULL, buffer, MAX_PATH );
-    string::size_type pos = string( buffer ).find_last_of( "\\/" );
-    return string( buffer ).substr( 0, pos);
+    GetModuleFileName(NULL, buffer, MAX_PATH);
+    string::size_type pos = string(buffer).find_last_of("\\/");
+    return string(buffer).substr(0, pos);
+}
+
+void BenutzerController::update_html() {
+    watchlist = get_all_watch();
+    ofstream htmlFile("resources/watchlist.html");
+    htmlFile << "<!DOCTYPE html>\n" << "<head>\n";
+    htmlFile << "<title>Watchliste</title>\n</head>\n<body>\n";
+    htmlFile << "<div class=\"table\">\n<table>\n<thead>\n<tr>\n";
+    htmlFile << "<th>Titel</th>\n";
+    htmlFile << "<th>Genre</th>\n";
+    htmlFile << "<th>Jahr</th>\n";
+    htmlFile << "<th>Likes</th>\n";
+    htmlFile << "<th>Trailer</th>\n</tr>\n</thead>\n<tbody>\n";
+    for (const auto &iter : watchlist) {
+        htmlFile << "<tr>\n";
+        htmlFile << "<td>" << iter.gettitel() << "</td>\n";
+        htmlFile << "<td>" << iter.getgenre() << "</td>\n";
+        htmlFile << "<td>" << iter.getjahr() << "</td>\n";
+        htmlFile << "<td>" << iter.getlikes() << "</td>\n";
+        htmlFile << "<td><a href=\"" << iter.gettrailer() << "\" target=\"_blank\">" << iter.gettrailer()
+                 << "</a></td>\n\t\t\t\t</tr>\n";
+    }
+    htmlFile << "</tbody>\n</table>\n</div>\n</body>\n</html>";
+    htmlFile.close();
 }

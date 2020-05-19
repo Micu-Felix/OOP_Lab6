@@ -13,22 +13,29 @@
 
 class BenutzerController {
     vector<Film> watchlist;
-    FilmRepository* repo;
-    string format="resources/watchlist";
-    vector <Film> get_all_watch();
+    FilmRepository *repo;
+    string format = "resources/watchlist";
+
+    vector<Film> get_all_watch();
+
     string ExePath();
+
 public:
     BenutzerController();
 
-    void formatsetter(string value){format=std::move(value);}
-    string formatgetter(){ return format;}
-    int size(){ return watchlist.size();};
+    void formatsetter(string value) { format = std::move(value); }
+
+    string formatgetter() { return format; }
+
+    int size() { return watchlist.size(); };
 
     vector<Film> view_genre(const string &genre);
 
     bool watch(const string &titel, int jahr);
 
-    void addToWatchlist(const Film& film);
+    void addToWatchlist(const Film &film);
+
+    void update_html();
 
     void view();
-    };
+};

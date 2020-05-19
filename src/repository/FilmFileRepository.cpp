@@ -1,5 +1,6 @@
 
 #pragma once
+
 #include <fstream>
 #include "FilmRepository.h"
 #include <sstream>
@@ -73,10 +74,11 @@ public:
         ofstream file2(fileName);
         file2 << "";
         file2.close();
-        ofstream file3(fileName,ios_base::app);
-        for (auto &film:filme){
+        ofstream file3(fileName, ios_base::app);
+        for (auto &film:filme) {
             file3 << film.gettitel() << ',' << film.getgenre() << ',' << film.getjahr() << ',' << film.getlikes()
-                 << ',' << film.gettrailer() << '\n';}
+                  << ',' << film.gettrailer() << '\n';
+        }
         file3.close();
         return true;
     }
@@ -99,10 +101,11 @@ public:
         ofstream file2(fileName);
         file2 << "";
         file2.close();
-        ofstream file3(fileName,ios_base::app);
-        for (auto &film:filme){
+        ofstream file3(fileName, ios_base::app);
+        for (auto &film:filme) {
             file3 << film.gettitel() << ',' << film.getgenre() << ',' << film.getjahr() << ',' << film.getlikes()
-                  << ',' << film.gettrailer() << '\n';}
+                  << ',' << film.gettrailer() << '\n';
+        }
         file3.close();
         return true;
     }
@@ -121,5 +124,6 @@ public:
         file.close();
         return filme;
     }
-    int size()override {return 0;}
+
+    int size() override { return 0; }
 };
